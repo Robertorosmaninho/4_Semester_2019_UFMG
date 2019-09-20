@@ -69,10 +69,13 @@ bool Graph::DFS(int idA){
 
   for(int i = 0; i < _adj[idA].size(); i++){
     idB = _adj[idA][i];
-    if(_visited[idB] != 1)
+    if(_visited[idB] != 1){
+      if(min > _age[idB])
+        min = _age[idB];
       DFS(idB);
-    else
+    }else{
       cycle = 1;
+    }
   }
   if(cycle)
     return false;
@@ -112,6 +115,15 @@ std::vector<int>* Graph::Meeting(std::vector<int> *G){
 }
 
 int Graph::Commander(int idA){
-  
+  Graph *G = new Graph(V, A);
+  G->_adj = this->_adj;
+  //Inverte todas as arestas do grafo
+  for(int i = 0; i < G->_adj->size(); i++){
+    for(int j = 0; j < G->_adj[i].size(); j++)
+      swapEdge(G->_adj[i][0], G->_adj[i][j]);
+  }
 
+  //Busca em profundidade para descobrir o nó com menor idade
+    G->DFS(idA);
+    return G->min;
 }

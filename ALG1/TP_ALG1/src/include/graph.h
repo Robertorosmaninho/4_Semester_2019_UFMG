@@ -10,6 +10,7 @@ private:
   int *_age;
   std::vector<int> _visited;
   std::vector<int>* _order;
+  int min = 100;
 public:
   Graph(int V, int A);
   ~Graph();
