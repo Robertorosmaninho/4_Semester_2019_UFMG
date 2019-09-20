@@ -36,18 +36,3 @@ clean:
 
 run:
 	./${ALL}
-
-teste_1:
-	./${ALL} < ${TESTE_IN}/1.in	
-
-teste_2:
-	./${ALL} < ${TESTE_IN}/2.in
-
-teste_3:
-	./${ALL} < ${TESTE_IN}/3.in
-
-teste_4:
-	./${ALL} < ${TESTE_IN}/4.in
-
-teste_5:
-	./${ALL} < ${TESTE_IN}/5.in
