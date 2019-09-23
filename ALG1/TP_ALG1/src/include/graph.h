@@ -10,14 +10,15 @@ private:
   int *_age;
   std::vector<int> _visited;
   std::vector<int> _order;
-  int min = 100;
-  int cycle = 0;
+  int _min = 100;
+  int _cycle = 0;
 public:
   Graph(int V, int A);
   ~Graph();
  
   void addNode(int id, int age);
   void addEdge(int idA, int idB);
+  int swap(int idA, int idB, Graph *G);
   bool swapEdge(int idA, int idB);
   void reset_visited();
   bool DFS(int idA);

@@ -21,7 +21,7 @@ int main(int argv, char *argc[]){
   std::vector<int> meeting;
   
   file >> N >> M >> I;
-  I = 3;
+
   Graph *G = new Graph(N,M);
   char *inst[I];
   int result[I];
@@ -48,6 +48,7 @@ int main(int argv, char *argc[]){
       file >> C;
       inst[i] = (char *)"C";
       result[i] = G->Commander(C-1);
+      std::cout << "Commander of " << C << " is " << result[i] << "\n"; 
     }else if(Inst.compare("S") == 0){
       file >> S1 >> S2;
       inst[i] = (char *)"S";
