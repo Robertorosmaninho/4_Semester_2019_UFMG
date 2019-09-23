@@ -30,51 +30,31 @@ void Graph::reset_visited(){
   this->_visited = std::vector<int>(V, 0);
 }
 
-void Graph::solve_cycle(int idA, int idB, int i){
-  if(idB == _adj[idA][i]){
-    _adj[idB].pop_back();
-    _adj[idA].push_back(idB);
-  }else if(idA == _adj[idB][i]){
-    _adj[idB].pop_back();
-    _adj[idA].push_back(idB);
-  }
-}
-
 bool Graph::swapEdge(int idA, int idB){
   //Verifica se há uma aresta entre A e B
   int temp = -1;
-  std::cout << "Testing swap of " << idA + 1<< " and " << idB + 1 << ":\n";
-  std::cout << "Test - IdA:\n";
   for(int i = 0; i < _adj[idA].size(); i++){
-    std::cout << _adj[idA][i] + 1<< " ";
     if(_adj[idA][i] == idB){
-      std::cout << "\nMatch IdA\n";
       temp = i;
       break;
     }
   }
  
-  std::cout << "\nTest - IdB:\n";
   for(int i = 0; i < _adj[idB].size(); i++){
-    std::cout << _adj[idB][i] + 1<< " ";
     if(_adj[idB][i] == idA){
-      std::cout << "\nMatch IdB\n";
       temp = i;
       break;
     }
   }
 
-  std::cout << "\n";
   if(temp == -1)
     return false;
   
   //Faz a troca
   if(idB == _adj[idA][temp]){
-    std::cout << "Swaping idB\n";
     _adj[idB].push_back(idA);
     _adj[idA].erase(_adj[idA].begin() + temp);
   }else if(idA == _adj[idB][temp]){
-    std::cout << "Swaping idA\n";
     _adj[idA].push_back(idB);
     _adj[idB].erase(_adj[idA].begin() + temp);
   }
@@ -83,13 +63,18 @@ bool Graph::swapEdge(int idA, int idB){
   reset_visited();
   if(!DFS(idA)){
     reset_visited();
-    if(!DFS(idB)){ std::cout << "\nPassou no test B\n";
-      return true;}
+    if(!DFS(idB))
+      return true;
   }
   
   //Se gerou, desfaz a troca e returna falso
-  std::cout << "Cycle founded in " << idA + 1 << " and " << idB + 1 << "\n"; 
-  solve_cycle(idA,idB, temp);
+  if(idB == _adj[idA][temp]){
+    _adj[idB].pop_back();
+    _adj[idA].push_back(idB);
+  }else if(idA == _adj[idB][temp]){
+    _adj[idB].pop_back();
+    _adj[idA].push_back(idB);
+  }
   return false;
  
 }

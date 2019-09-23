@@ -19,7 +19,6 @@ public:
   void addNode(int id, int age);
   void addEdge(int idA, int idB);
   bool swapEdge(int idA, int idB);
-  void solve_cycle(int idA,int idB, int temp);
   void reset_visited();
   bool DFS(int idA);
   void deleteNode(std::vector<int> *G,int idA);
