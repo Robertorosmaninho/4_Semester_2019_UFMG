@@ -9,8 +9,9 @@ private:
   std::vector<int> *_adj;
   int *_age;
   std::vector<int> _visited;
-  std::vector<int>* _order;
+  std::vector<int> _order;
   int min = 100;
+  int cycle = 0;
 public:
   Graph(int V, int A);
   ~Graph();
@@ -18,10 +19,13 @@ public:
   void addNode(int id, int age);
   void addEdge(int idA, int idB);
   bool swapEdge(int idA, int idB);
+  void solve_cycle(int idA,int idB, int temp);
+  void reset_visited();
   bool DFS(int idA);
   void deleteNode(std::vector<int> *G,int idA);
   bool hasCicle(int idA); //Roda uma DFS no idA, se encontrar o idA return 1
-  std::vector<int>* Meeting(std::vector<int> *G);
+  std::vector<int> Meeting(std::vector<int> *G);
+  std::vector<int>* getList();
   int Commander(int idA);
 };
 
