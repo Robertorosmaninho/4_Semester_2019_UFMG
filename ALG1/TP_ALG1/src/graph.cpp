@@ -49,7 +49,6 @@ int Graph::swap(int idA, int idB){
   }
 
   if(temp == -1){
-    std::cout << "\n*** Error ***\n";  
     return -1;
   }
 
@@ -79,7 +78,6 @@ bool Graph::swapEdge(int idA, int idB){
     if(!this->DFS(idB))
       return true;
   }
-  std::cout << "\n*** Cycle ***\n";  
   //Se gerou, desfaz a troca e returna falso
   if(idB == this->_adj[idA][iterator]){
     this->_adj[idB].pop_back();
@@ -149,55 +147,36 @@ std::cout << "Passsou Aqui!\n";
 }
 
 int Graph::Commander(int idA){
+  //Flags só para deixar o codigo mais limpo
   int size = 0;
   int temp = -1;
+
+  //vetor com as arestas invertidas
   std::vector<int> *reverse = new std::vector<int>[V];
 
-  std::cout << "============ Before ==============\n";
-  this->print();
-
-  std::cout << "### Breakpoint ###\n";
-  std::cout << "List Size: " << _adj->size() << "\n";
-  std::cout << "List[0] Size: " << _adj[0].size() << "\n";
-  
   //Inverte todas as arestas do grafo
   for(int i = 0; i < V; i++){
     size = _adj[i].size();
     for(int j = 0 ; j < size; j++){
        if(_adj[i][j] <= i && i < size - 1)
           i++;
-       std::cout << i+1 << " ->" << _adj[i][j]+1 << "\n";
        temp = _adj[i][j];
        reverse[temp].push_back(i); 
     }
   }
 
-  std::cout << "============ After ==============\n";
-  this->print();
-
-  std::cout << "============ Reverse ==============\n";
-  for(int a = 0; a < V; a++){
-    std::cout << a+1 << " -> ";
-    for(int b = 0; b < reverse[a].size(); b++){
-      std::cout << reverse[a][b] + 1 << " ";
-    }
-  std::cout << "\n";
-  }
-
-    Graph G = Graph(V,A);
-    G._adj = reverse;
-    G._age = this->_age;
-
-    std::cout << "==========================\n";
-    G.print();
+  //Cria um grafo com as arestas inversas para rodar a DFS
+  Graph G = Graph(V,A);
+  G._adj = reverse;
+  G._age = this->_age;
 
   //Busca em profundidade para descobrir o nó com menor idade
-    if(reverse[idA].empty())
-      return -1;
-    else
-      G.DFS(idA);
+  if(reverse[idA].empty())
+    return -1;
+  else
+    G.DFS(idA);
 
-    return G._min;
+  return G._min;
 }
 
 void Graph::print(){
