@@ -13,7 +13,8 @@ int main(int argv, char *argc[]){
   
   out.open("out.txt"); 
   file.open(argc[1]);
-  
+//  file.open("in.txt");  
+
   int N, M, I;
   int age, rel1, rel2;
   std::string Inst;
