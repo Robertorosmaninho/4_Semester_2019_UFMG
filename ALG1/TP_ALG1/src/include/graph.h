@@ -18,7 +18,7 @@ public:
  
   void addNode(int id, int age);
   void addEdge(int idA, int idB);
-  int swap(int idA, int idB, Graph *G);
+  int swap(int idA, int idB);
   bool swapEdge(int idA, int idB);
   void reset_visited();
   bool DFS(int idA);
@@ -27,6 +27,7 @@ public:
   std::vector<int> Meeting(std::vector<int> *G);
   std::vector<int>* getList();
   int Commander(int idA);
+  void print();
 };
 
 

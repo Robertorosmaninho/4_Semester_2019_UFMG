@@ -31,18 +31,18 @@ void Graph::reset_visited(){
   this->_visited = std::vector<int>(V, 0);
 }
 
-int Graph::swap(int idA, int idB, Graph *G){
+int Graph::swap(int idA, int idB){
   //Verifica se há uma aresta entre A e B
   int temp = -1;
-  for(int i = 0; i < G->_adj[idA].size(); i++){
-    if(G->_adj[idA][i] == idB){
+  for(int i = 0; i < _adj[idA].size(); i++){
+    if(_adj[idA][i] == idB){
       temp = i;
       break;
     }
   }
  
-  for(int i = 0; i < G->_adj[idB].size(); i++){
-    if(G->_adj[idB][i] == idA){
+  for(int i = 0; i < _adj[idB].size(); i++){
+    if(_adj[idB][i] == idA){
       temp = i;
       break;
     }
@@ -54,19 +54,19 @@ int Graph::swap(int idA, int idB, Graph *G){
   }
 
   //Faz a troca
-  if(idB == G->_adj[idA][temp]){
-    G->_adj[idB].push_back(idA);
-    G->_adj[idA].erase(_adj[idA].begin() + temp);
-  }else if(idA == G->_adj[idB][temp]){
-    G->_adj[idA].push_back(idB);
-    G->_adj[idB].erase(_adj[idA].begin() + temp);
+  if(idB == _adj[idA][temp]){
+    _adj[idB].push_back(idA);
+    _adj[idA].erase(_adj[idA].begin() + temp);
+  }else if(idA == _adj[idB][temp]){
+    _adj[idA].push_back(idB);
+    _adj[idB].erase(_adj[idA].begin() + temp);
   }
   return temp;
 }
 
 bool Graph::swapEdge(int idA, int idB){
   //Verifica se existe uma aresta e a inverte
-  int iterator = swap(idA,idB, this);
+  int iterator = swap(idA,idB);
   
   if(iterator == -1)
     return false;
@@ -114,12 +114,12 @@ bool Graph::DFS(int idA){
 }
 
 void Graph::deleteNode(std::vector<int> *G, int idA){
-std::cout << "G possui ";//  << G->size();
-// << " int, mas vc está tentando deletear o nó " << G->begin() + idA << "\n";
- // G->erase(G->begin() + idA);
+std::cout << "G possui ";//  << size();
+// << " int, mas vc está tentando deletear o nó " << begin() + idA << "\n";
+ // erase(begin() + idA);
 std::cout << "Deletou o nó!\n";
   /*
-  for(int i = 0; i < G->size(); i++){
+  for(int i = 0; i < size(); i++){
     for(int j = 0; j < G[i].size(); j++)
       if(G[i][j] == idA)
         G[i].erase(G[i].begin() + j);
@@ -149,40 +149,63 @@ std::cout << "Passsou Aqui!\n";
 }
 
 int Graph::Commander(int idA){
-  Graph *G = new Graph(V, A);
-  G->_adj = this->_adj;
-  G->_age = this->_age;
-  
+  int size = 0;
+  int temp = -1;
+  std::vector<int> *reverse = new std::vector<int>[V];
+
   std::cout << "============ Before ==============\n";
-  for(int j = 0; j < V; j++){
-    std::cout << j+1 << " -> ";
-    for(int i = 0; i < _adj[j].size(); i++){
-      std::cout << _adj[j][i] + 1 << " ";
-    }
-  std::cout << "\n";
-  }
+  this->print();
+
+  std::cout << "### Breakpoint ###\n";
+  std::cout << "List Size: " << _adj->size() << "\n";
+  std::cout << "List[0] Size: " << _adj[0].size() << "\n";
   
   //Inverte todas as arestas do grafo
-  for(int i = 0; i < G->_adj->size(); i++){
-    for(int j = 0; j < G->_adj[i].size(); j++){
-      G->swap(i, G->_adj[i][j], G);
+  for(int i = 0; i < V; i++){
+    size = _adj[i].size();
+    for(int j = 0 ; j < size; j++){
+       if(_adj[i][j] <= i && i < size - 1)
+          i++;
+       std::cout << i+1 << " ->" << _adj[i][j]+1 << "\n";
+       temp = _adj[i][j];
+       reverse[temp].push_back(i); 
     }
   }
 
   std::cout << "============ After ==============\n";
-  for(int j = 0; j < V; j++){
+  this->print();
+
+  std::cout << "============ Reverse ==============\n";
+  for(int a = 0; a < V; a++){
+    std::cout << a+1 << " -> ";
+    for(int b = 0; b < reverse[a].size(); b++){
+      std::cout << reverse[a][b] + 1 << " ";
+    }
+  std::cout << "\n";
+  }
+
+    Graph G = Graph(V,A);
+    G._adj = reverse;
+    G._age = this->_age;
+
+    std::cout << "==========================\n";
+    G.print();
+
+  //Busca em profundidade para descobrir o nó com menor idade
+    if(reverse[idA].empty())
+      return -1;
+    else
+      G.DFS(idA);
+
+    return G._min;
+}
+
+void Graph::print(){
+   for(int j = 0; j < V; j++){
     std::cout << j+1 << " -> ";
     for(int i = 0; i < _adj[j].size(); i++){
       std::cout << _adj[j][i] + 1 << " ";
     }
   std::cout << "\n";
-  }
-
-  //Busca em profundidade para descobrir o nó com menor idade
-    if(G->_adj[idA].empty())
-      return -1;
-    else
-      G->DFS(idA);
-
-    return G->_min;
+  } 
 }
