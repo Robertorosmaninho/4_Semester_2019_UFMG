@@ -2,6 +2,7 @@
 #define TP_ALG1_INCLUDE_GRAPH_H
 
 #include <vector>
+#include <stack> 
 
 class Graph{
 private:
@@ -9,7 +10,6 @@ private:
   std::vector<int> *_adj;
   int *_age;
   std::vector<int> _visited;
-  std::vector<int> _order;
   int _min = 100;
   int _cycle = 0;
 public:
@@ -22,9 +22,9 @@ public:
   bool swapEdge(int idA, int idB);
   void reset_visited();
   bool DFS(int idA);
-  void deleteNode(std::vector<int> *G,int idA);
+  void BuildStack(std::stack<int>* order, int idA);
   bool hasCicle(int idA); //Roda uma DFS no idA, se encontrar o idA return 1
-  std::vector<int> Meeting(std::vector<int> *G);
+  std::stack<int>* Meeting();
   std::vector<int>* getList();
   int Commander(int idA);
   void print();

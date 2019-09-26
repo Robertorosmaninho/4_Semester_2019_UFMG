@@ -23,13 +23,13 @@ CC = g++
 # The flags below will be included in the implicit compilation rules
 # 'make' infers that the code in the directory is in c++
 # and looks for the CPPFLAGS variable
-CPPFLAGS = -g -Wall -std=c++11 -O3
+CPPFLAGS = -g -Wall -std=c++11 #-O3
 
 all: $(ALL)
 
 $(ALL): $(OBJ)
 	$(CC) $(CPPFLAGS) -c $(SRC)
-	$(CC) $(CPPFLAGS) $(OBJ) -o $@ 
+	$(CC) $(CPPFLAGS) $(OBJ) -g -o $@ 
 
 clean:
 	rm $(ALL) *.o

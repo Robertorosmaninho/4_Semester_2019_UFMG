@@ -8,7 +8,6 @@ Graph::Graph(int V, int A){
   this->_age = new int[V];
   this->_visited = std::vector<int>(V, 0);
   this->_cycle = 0;
- // this->_order = nullptr;
 }
 
 Graph::~Graph(){}
@@ -111,39 +110,33 @@ bool Graph::DFS(int idA){
     return false;
 }
 
-void Graph::deleteNode(std::vector<int> *G, int idA){
-std::cout << "G possui ";//  << size();
-// << " int, mas vc está tentando deletear o nó " << begin() + idA << "\n";
- // erase(begin() + idA);
-std::cout << "Deletou o nó!\n";
-  /*
-  for(int i = 0; i < size(); i++){
-    for(int j = 0; j < G[i].size(); j++)
-      if(G[i][j] == idA)
-        G[i].erase(G[i].begin() + j);
-  }*/
-}
-
-std::vector<int> Graph::Meeting(std::vector<int> *G){
-  if(G->empty()){
-   std::cout << "G is Empty!\n"; 
-    return _order;
-}
-  std::vector<int> noincoming;
-  for(int i = 0; i < V; i++){
-    if(_adj[i].size() == 0)
-      noincoming.push_back(i);
+void Graph::BuildStack(std::stack<int>* order,int idA){
+  //Marca o nó como visitado
+  _visited[idA] = 1;
+  
+  //Chama BuildStack pra todos os vertices que idA aponta
+  for(int i = 0; i < _adj[idA].size(); i++){
+    //std::cout << "**\n"; 
+    if(!_visited[i])
+      BuildStack(order,i);
   }
 
-  int temp = noincoming.back();
-  noincoming.pop_back();
+  //Add idA na pilha 
+  order->push(idA);
+}
 
-  _order.push_back(temp - 1);
-std::cout << "Passsou Aqui!\n";
-  deleteNode(G, temp);
-  Meeting(G);
-   
-  //return nullptr;
+std::stack<int>* Graph::Meeting(){
+  //Stack que contera a ordem topologica
+  std::stack<int> *order = new std::stack<int>;
+  reset_visited();
+
+  //Para cada nó não visitada visitado, visita todos seus vizinhos em ordem de
+  //profundidade
+  for(int i = 0; i < V; i++){
+    if(!_visited[i])
+      BuildStack(order,i);
+  }
+  return order;
 }
 
 int Graph::Commander(int idA){
