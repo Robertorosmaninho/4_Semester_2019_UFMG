@@ -122,24 +122,14 @@ bool Graph::DFS(int idA){
 void Graph::BuildStack(std::stack<int>* order,int idA){
   //Marca o nó como visitado
   _visited[idA] = 1;
-    std::cout << "Inside: ";
-   for(int i= 0; i < _visited.size();i++)
-    std::cout << _visited[i] << " ";
-  std::cout << "\n"; 
+
   //Chama BuildStack pra todos os vertices que idA aponta
   for(int i = 0; i < (int)_adj[idA].size(); i++){
-    std::cout << "Tamanho de " << idA << " = " << (int)_adj[idA].size();
-    std::cout  << "\n Elementos de " << idA << " :\n"; 
-    for(int j = 0; j <(int)_adj[idA].size(); j++)
-      std::cout << _adj[idA][j] << " ";
-    std::cout << "\n";
     if(_visited[_adj[idA][i]] == 0){
-      std::cout << "Vai entar em: " << _adj[idA][i] << "\n";
       BuildStack(order,_adj[idA][i]);
     }
   }
 
-  std::cout << "Empilhou: " << idA << "\n";
   //Add idA na pilha 
   order->push(idA);
 }
@@ -149,17 +139,10 @@ std::stack<int>* Graph::Meeting(){
   std::stack<int> *order = new std::stack<int>;
   reset_visited();
 
-  print();
-
-  for(int i= 0; i < _visited.size();i++)
-    std::cout << _visited[i] << " ";
-  std::cout << "\n";
-
   //Para cada nó não visitada visitado, visita todos seus vizinhos em ordem de
   //profundidade
   for(int i = 0; i < V; i++){
     if(!_visited[i]){
-      std::cout << "=======================\nChamada externa de: "<< i << "\n";
       BuildStack(order,i);
     }
   }
