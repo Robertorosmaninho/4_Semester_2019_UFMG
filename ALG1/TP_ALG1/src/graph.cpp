@@ -10,7 +10,10 @@ Graph::Graph(int V, int A){
   this->_cycle = 0;
 }
 
-Graph::~Graph(){}
+Graph::~Graph(){
+  //delete this->_adj;
+  //delete this->_age;
+}
 
 void Graph::addNode(int id, int idAge){
   this->_age[id] = idAge;
@@ -31,8 +34,16 @@ void Graph::reset_visited(){
 }
 
 int Graph::swap(int idA, int idB){
+
+  //Verifica se o index requisitado é menor que o tamanho do vetor
+  if(idA >= V || idB >= V){
+    std::cout << "Invalid index!\n";
+    return -1;
+  }
+
   //Verifica se há uma aresta entre A e B
   int temp = -1;
+
   for(int i = 0; i < _adj[idA].size(); i++){
     if(_adj[idA][i] == idB){
       temp = i;
@@ -78,10 +89,10 @@ bool Graph::swapEdge(int idA, int idB){
       return true;
   }
   //Se gerou, desfaz a troca e returna falso
-  if(idB == this->_adj[idA][iterator]){
+  if(idB == this->_adj[idA].back()){
     this->_adj[idB].pop_back();
     this->_adj[idA].push_back(idB);
-  }else if(idA == _adj[idB][iterator]){
+  }else if(idA == _adj[idB].back()){
     this->_adj[idB].pop_back();
     this->_adj[idA].push_back(idB);
   }
@@ -141,18 +152,21 @@ std::stack<int>* Graph::Meeting(){
 
 int Graph::Commander(int idA){
   //Flags só para deixar o codigo mais limpo
-  int size = 0;
+  int size[V];
   int temp = -1;
+
+  //Vetor com os tamanhos originais para não iterarmos a mais. 
+  //Ex: aresta já invertida ter que ser invertida novamente
+  for(int i = 0; i < V; i++){
+    size[i] = _adj[i].size();
+  }
 
   //vetor com as arestas invertidas
   std::vector<int> *reverse = new std::vector<int>[V];
 
   //Inverte todas as arestas do grafo
   for(int i = 0; i < V; i++){
-    size = _adj[i].size();
-    for(int j = 0 ; j < size; j++){
-       if(_adj[i][j] <= i && i < size - 1)
-          i++;
+    for(int j = 0 ; j < size[i]; j++){
        temp = _adj[i][j];
        reverse[temp].push_back(i); 
     }
@@ -164,11 +178,14 @@ int Graph::Commander(int idA){
   G._age = this->_age;
 
   //Busca em profundidade para descobrir o nó com menor idade
-  if(reverse[idA].empty())
+  if(reverse[idA].empty()){
+   // delete reverse;
     return -1;
-  else
+  }else{
     G.DFS(idA);
+  }
 
+ // delete reverse;
   return G._min;
 }
 
