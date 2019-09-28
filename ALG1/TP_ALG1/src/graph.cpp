@@ -11,8 +11,6 @@ Graph::Graph(int V, int A){
 }
 
 Graph::~Graph(){
-  //delete this->_adj;
-  //delete this->_age;
 }
 
 void Graph::addNode(int id, int idAge){
@@ -44,14 +42,14 @@ int Graph::swap(int idA, int idB){
   //Verifica se há uma aresta entre A e B
   int temp = -1;
 
-  for(int i = 0; i < _adj[idA].size(); i++){
+  for(int i = 0; i < (int)_adj[idA].size(); i++){
     if(_adj[idA][i] == idB){
       temp = i;
       break;
     }
   }
  
-  for(int i = 0; i < _adj[idB].size(); i++){
+  for(int i = 0; i < (int)_adj[idB].size(); i++){
     if(_adj[idB][i] == idA){
       temp = i;
       break;
@@ -105,7 +103,7 @@ bool Graph::DFS(int idA){
   _visited[idA] = 1;
   int idB;
 
-  for(int i = 0; i < _adj[idA].size(); i++){
+  for(int i = 0; i < (int)_adj[idA].size(); i++){
     idB = _adj[idA][i];
     if(_visited[idB] != 1){
       if(_min > _age[idB])
@@ -126,7 +124,7 @@ void Graph::BuildStack(std::stack<int>* order,int idA){
   _visited[idA] = 1;
   
   //Chama BuildStack pra todos os vertices que idA aponta
-  for(int i = 0; i < _adj[idA].size(); i++){
+  for(int i = 0; i < (int)_adj[idA].size(); i++){
     //std::cout << "**\n"; 
     if(!_visited[i])
       BuildStack(order,i);
@@ -179,20 +177,18 @@ int Graph::Commander(int idA){
 
   //Busca em profundidade para descobrir o nó com menor idade
   if(reverse[idA].empty()){
-   // delete reverse;
     return -1;
   }else{
     G.DFS(idA);
   }
 
- // delete reverse;
   return G._min;
 }
 
 void Graph::print(){
    for(int j = 0; j < V; j++){
     std::cout << j+1 << " -> ";
-    for(int i = 0; i < _adj[j].size(); i++){
+    for(int i = 0; i < (int)_adj[j].size(); i++){
       std::cout << _adj[j][i] + 1 << " ";
     }
   std::cout << "\n";
