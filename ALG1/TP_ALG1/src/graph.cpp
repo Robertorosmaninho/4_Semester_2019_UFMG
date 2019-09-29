@@ -5,6 +5,7 @@ Graph::Graph(int V, int A){
   this->V = V;
   this->A = A;
   this->_adj = new std::vector<int>[V];
+  this->_reverse_adj = new std::vector<int>[V];
   this->_age = new int[V];
   this->_visited = std::vector<int>(V, 0);
   this->_cycle = 0;
@@ -19,6 +20,7 @@ void Graph::addNode(int id, int idAge){
 
 void Graph::addEdge(int idA, int idB){
   _adj[idA].push_back(idB); 
+  _reverse_adj[idB].push_back(idA);
 }
 
 std::vector<int>* Graph::getList(){
@@ -39,18 +41,11 @@ int Graph::swap(int idA, int idB){
     return -1;
   }
 
-  //Verifica se há uma aresta entre A e B
+  //Verifica se há uma aresta de A para B
   int temp = -1;
 
   for(int i = 0; i < (int)_adj[idA].size(); i++){
     if(_adj[idA][i] == idB){
-      temp = i;
-      break;
-    }
-  }
- 
-  for(int i = 0; i < (int)_adj[idB].size(); i++){
-    if(_adj[idB][i] == idA){
       temp = i;
       break;
     }
@@ -63,10 +58,8 @@ int Graph::swap(int idA, int idB){
   if((int)_adj[idA].size() > temp && idB == _adj[idA][temp]){
     _adj[idB].push_back(idA);
     _adj[idA].erase(_adj[idA].begin() + temp);
-  }else if((int)_adj[idB].size() > temp && idA == _adj[idB][temp]){
-    _adj[idA].push_back(idB);
-    _adj[idB].erase(_adj[idB].begin() + temp);
   }
+
   return temp;
 }
 
@@ -80,18 +73,13 @@ bool Graph::swapEdge(int idA, int idB){
 
   //Verifica se gerou ciclo
   this->reset_visited();
-  if(!this->DFS(idA)){
-    this->reset_visited();
-    if(!this->DFS(idB))
-      return true;
-  }
+  if(!this->DFS(idB))
+    return true;
+
   //Se gerou, desfaz a troca e returna falso
   if(idB == this->_adj[idA].back()){
     this->_adj[idA].pop_back();
     this->_adj[idB].push_back(idA);
-  }else if(idA == _adj[idB].back()){
-    this->_adj[idB].pop_back();
-    this->_adj[idA].push_back(idB);
   }
    
   return false;
@@ -110,6 +98,7 @@ bool Graph::DFS(int idA){
       DFS(idB);
     }else{
       this->_cycle = 1;
+      break;
     }
   }
   if(_cycle)
@@ -149,38 +138,16 @@ std::stack<int>* Graph::Meeting(){
 }
 
 int Graph::Commander(int idA){
-  //Flags só para deixar o codigo mais limpo
-  int size[V];
-  int temp = -1;
-
-  //Vetor com os tamanhos originais para não iterarmos a mais. 
-  //Ex: aresta já invertida ter que ser invertida novamente
-  for(int i = 0; i < V; i++){
-    size[i] = _adj[i].size();
-  }
-
-  //vetor com as arestas invertidas
-  std::vector<int> *reverse = new std::vector<int>[V];
-
-  //Inverte todas as arestas do grafo
-  for(int i = 0; i < V; i++){
-    for(int j = 0 ; j < size[i]; j++){
-       temp = _adj[i][j];
-       reverse[temp].push_back(i); 
-    }
-  }
-
   //Cria um grafo com as arestas inversas para rodar a DFS
   Graph G = Graph(V,A);
-  G._adj = reverse;
+  G._adj = this->_reverse_adj;
   G._age = this->_age;
 
   //Busca em profundidade para descobrir o nó com menor idade
-  if(reverse[idA].empty()){
+  if(_reverse_adj[idA].empty())
     return -1;
-  }else{
+  else
     G.DFS(idA);
-  }
 
   return G._min;
 }

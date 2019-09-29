@@ -8,6 +8,7 @@ class Graph{
 private:
   int V, A;
   std::vector<int> *_adj;
+  std::vector<int> *_reverse_adj;
   int *_age;
   std::vector<int> _visited;
   int _min = 100;

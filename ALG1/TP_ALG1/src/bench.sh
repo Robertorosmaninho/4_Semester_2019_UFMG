@@ -10,11 +10,11 @@ for i in 10 20 30 40 50 60 70 80 90 100; do
     start=$(date +%s%N)
     ./tp1 inputs/$1/in_$1_$i.txt
 
-    elapsed=$((($(date +%s.%N) - $start))) # time in microseconds
+    elapsed=$((($(date +%s%N) - $start) / 1000)) # time in microseconds
 
     mv out.txt out_${1}_${i}.txt
     mv out_${1}_${i}.txt results/
-    echo "$elapsed;" >> results/time__${1}_${i}.txt
+    echo "$elapsed" >> results/time__${1}_${i}.txt
   done
 
 done
