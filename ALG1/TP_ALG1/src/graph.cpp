@@ -59,14 +59,13 @@ int Graph::swap(int idA, int idB){
   if(temp == -1){
     return -1;
   }
-
   //Faz a troca
-  if(idB == _adj[idA][temp]){
+  if((int)_adj[idA].size() > temp && idB == _adj[idA][temp]){
     _adj[idB].push_back(idA);
     _adj[idA].erase(_adj[idA].begin() + temp);
-  }else if(idA == _adj[idB][temp]){
+  }else if((int)_adj[idB].size() > temp && idA == _adj[idB][temp]){
     _adj[idA].push_back(idB);
-    _adj[idB].erase(_adj[idA].begin() + temp);
+    _adj[idB].erase(_adj[idB].begin() + temp);
   }
   return temp;
 }
@@ -88,8 +87,8 @@ bool Graph::swapEdge(int idA, int idB){
   }
   //Se gerou, desfaz a troca e returna falso
   if(idB == this->_adj[idA].back()){
-    this->_adj[idB].pop_back();
-    this->_adj[idA].push_back(idB);
+    this->_adj[idA].pop_back();
+    this->_adj[idB].push_back(idA);
   }else if(idA == _adj[idB].back()){
     this->_adj[idB].pop_back();
     this->_adj[idA].push_back(idB);
