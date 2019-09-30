@@ -33,12 +33,11 @@ void Graph::reset_visited(){
   this->_visited = std::vector<int>(V, 0);
 }
 
-int Graph::swap(int idA, int idB){
-
+bool Graph::swapEdge(int idA, int idB){
   //Verifica se o index requisitado é menor que o tamanho do vetor
   if(idA >= V || idB >= V){
     std::cout << "Invalid index!\n";
-    return -1;
+    return false;
   }
 
   //Verifica se há uma aresta de A para B
@@ -51,26 +50,17 @@ int Graph::swap(int idA, int idB){
     }
   }
 
+  //Verifica se existe uma aresta e a inverte
   if(temp == -1){
-    return -1;
+    return false;
   }
+
   //Faz a troca
-  if((int)_adj[idA].size() > temp && idB == _adj[idA][temp]){
+  if(idB == _adj[idA][temp]){
     _adj[idB].push_back(idA);
     _adj[idA].erase(_adj[idA].begin() + temp);
   }
-
-  return temp;
-}
-
-bool Graph::swapEdge(int idA, int idB){
-  //Verifica se existe uma aresta e a inverte
-  int iterator = swap(idA,idB);
   
-  if(iterator == -1)
-    return false;
-   
-
   //Verifica se gerou ciclo
   this->reset_visited();
   if(!this->DFS(idB))
