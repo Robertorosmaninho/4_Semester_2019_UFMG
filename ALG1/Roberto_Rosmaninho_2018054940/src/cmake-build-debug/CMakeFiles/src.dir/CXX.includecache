@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚ Período - 2019.2/4_Semester_2019_UFMG/ALG1/Roberto_Rosmaninho_2018054940/src/graph.cpp
+include/graph.h
+/Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚ Período - 2019.2/4_Semester_2019_UFMG/ALG1/Roberto_Rosmaninho_2018054940/src/include/graph.h
+iostream
+-
+
+/Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚ Período - 2019.2/4_Semester_2019_UFMG/ALG1/Roberto_Rosmaninho_2018054940/src/include/graph.h
+vector
+-
+stack
+-
+
+/Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚ Período - 2019.2/4_Semester_2019_UFMG/ALG1/Roberto_Rosmaninho_2018054940/src/main.cpp
+iostream
+-
+string.h
+-
+fstream
+-
+include/graph.h
+/Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚ Período - 2019.2/4_Semester_2019_UFMG/ALG1/Roberto_Rosmaninho_2018054940/src/include/graph.h
+

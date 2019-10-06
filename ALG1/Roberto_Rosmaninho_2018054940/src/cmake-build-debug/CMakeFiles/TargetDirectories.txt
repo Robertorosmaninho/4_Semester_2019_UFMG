@@ -1,0 +1,3 @@
+/Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚ Período - 2019.2/4_Semester_2019_UFMG/ALG1/Roberto_Rosmaninho_2018054940/src/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚ Período - 2019.2/4_Semester_2019_UFMG/ALG1/Roberto_Rosmaninho_2018054940/src/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚ Período - 2019.2/4_Semester_2019_UFMG/ALG1/Roberto_Rosmaninho_2018054940/src/cmake-build-debug/CMakeFiles/src.dir

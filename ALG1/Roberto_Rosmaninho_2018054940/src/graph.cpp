@@ -23,10 +23,6 @@ void Graph::addEdge(int idA, int idB){
   _reverse_adj[idB].push_back(idA);
 }
 
-std::vector<int>* Graph::getList(){
-  return this->_adj;
-}
-
 void Graph::reset_visited(){
   this->_min = 100;
   this->_cycle = 0;
@@ -140,14 +136,4 @@ int Graph::Commander(int idA){
     G.DFS(idA);
 
   return G._min;
-}
-
-void Graph::print(){
-   for(int j = 0; j < V; j++){
-    std::cout << j+1 << " -> ";
-    for(int i = 0; i < (int)_adj[j].size(); i++){
-      std::cout << _adj[j][i] + 1 << " ";
-    }
-  std::cout << "\n";
-  } 
 }
