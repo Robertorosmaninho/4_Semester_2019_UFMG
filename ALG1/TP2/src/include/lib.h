@@ -8,7 +8,7 @@ struct classcomp {
   {return lhs<rhs;}
 };
 
-class Greedy{
+class Lib{
 private:
   int _N, _M; //max_Cash and #Islands
   std::map<int, int, classcomp> _islands, _sorted; //points, cost  |  cost/points, cost
@@ -17,11 +17,12 @@ private:
   int _total_points = 0;
 
 public:
-  Greedy(int N, int M);
-  ~Greedy();
+  Lib(int N, int M);
+  ~Lib();
 
   void set_islands(std::map<int, int, classcomp> island);
-  void set_cost_benefit();
+  void set_cost_benefit(); //Greedy
+  int set_matrix(); //PD
   int  get_days();
   int  get_total_points();
 };
