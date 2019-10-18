@@ -27,9 +27,10 @@ int main(int argv, char *argc[]){
 
   q1->set_islands(islands);
   q1->set_cost_benefit();
-  std::cout << "M: " << q1->set_matrix() << "\n";
+  q1->set_matrix();
 
-  std::cout <<  q1->get_total_points() << " " << q1->get_days() << "\n";
+  std::cout << q1->get_total_points() << " " << q1->get_days() << "\n";
+  std::cout << q1->get_total_points_pd() << " " << q1->get_days_pd() << "\n";
 
   file.close();
 return 0;

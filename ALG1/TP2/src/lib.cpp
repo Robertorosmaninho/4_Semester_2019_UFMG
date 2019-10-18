@@ -39,8 +39,8 @@ void Lib::set_cost_benefit(){
   }
 }
 
-int Lib::set_matrix(){
-  int _matrix[_M][_N];
+void Lib::set_matrix(){
+  int _matrix[_M+1][_N+1];
   int W[_M], Val[_M];
   int k = 0;
   for(auto it = _sorted.begin(); it != _sorted.end(); ++it, k++){
@@ -48,26 +48,30 @@ int Lib::set_matrix(){
     Val[k] = it->second / it->first;
   }
 
-
-  for(int i = 0; i < _N; i++)
-    _matrix[0][i] = 0;
-
-  for(int j = 0; j < _M; j++)
-    _matrix[j][0] = 0;
-
-  for(int i = 1; i < _M; i++){
-    for(int j = 0; j < _N; j++){
-      if(W[i] > _N)
+  for(int i = 0; i <= _M; i++){
+    for(int j = 0; j <= _N; j++){
+      if(i == 0 || j == 0)
+        _matrix[i][j] = 0; 
+      else if(W[i-1] > j)
         _matrix[i][j] = _matrix[i-1][j];
       else
-        _matrix[i][j] = std::max(_matrix[i-1][j], Val[i] + _matrix[i-1][_N - W[i]]);
+        _matrix[i][j] = std::max(_matrix[i-1][j], Val[i-1] + _matrix[i-1][j - W[i-1]]);
     }
   }
-//std::cout << _matrix[_M - 3, _N - 3] << "\n";
-return _matrix[_M][_N];
 
+  _total_points_pd = _matrix[_M][_N];
+
+  int i = _M;
+  int j = _N;
+  while(i < 0 || j < 0){
+    if(_matrix[i][j] > _matrix[i-1][j]){
+      _days_pd++;
+      j = j - Val[i-1];
+    }else{
+      i--;
+    }
+  }
 }
-
 
 int Lib::get_total_points(){
   return _total_points;
@@ -75,4 +79,12 @@ int Lib::get_total_points(){
 
 int Lib::get_days(){
   return _days;
+}
+
+int Lib::get_days_pd(){
+  return _days_pd;
+}
+
+int Lib::get_total_points_pd(){
+  return _total_points_pd;
 }
