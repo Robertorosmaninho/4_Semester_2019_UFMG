@@ -1,6 +1,7 @@
 #include "include/lib.h"
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 int main(int argv, char *argc[]){
   if(argv < 2){
@@ -14,21 +15,19 @@ int main(int argv, char *argc[]){
   int P = 0, D = 0; //Points, Cost p/ day
 
   file >> N >> M;
-  //std::cout << N << " "<< M << "\n";
 
   Lib *q1 = new Lib(N,M);
-  std::map<int, int, classcomp> *islands = new std::map<int, int, classcomp>;
-      //points, cost
+  std::vector<std::tuple<float, int, int>> islands; //points, cost
+
 
   for(int i = 0; i < M; i++){
     file >> D >> P;
-    islands->insert(std::pair<int, int>(D,P));
-//    std::cout << D << " "<< P << "\n";
+    islands.push_back(std::make_tuple(D/P, D, P));
   }
 
   q1->set_islands(islands);
-  q1->set_cost_benefit();
-  q1->set_matrix(N,M);
+  q1->set_greedy();
+  q1->set_dynamic_programming(N,M);
 
   std::cout << q1->get_total_points() << " " << q1->get_days() << "\n";
   std::cout << q1->get_total_points_pd() << " " << q1->get_days_pd() << "\n";
