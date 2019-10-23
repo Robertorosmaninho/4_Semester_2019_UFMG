@@ -3,7 +3,9 @@
 
 Lib::Lib(int N, int M) : _N(N), _M(M) {} 
 
-Lib::~Lib() = default;
+Lib::~Lib(){
+	delete _trip;
+};
 
 
 void Lib::set_islands(std::map<int, int, classcomp> island){
