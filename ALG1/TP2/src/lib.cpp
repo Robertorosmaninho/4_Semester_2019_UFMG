@@ -1,5 +1,6 @@
 #include "include/lib.h"
 #include <iostream>  
+#include <vector>
 
 Lib::Lib(int N, int M) : _N(N), _M(M) {} 
 
@@ -8,70 +9,57 @@ Lib::~Lib(){
 };
 
 
-void Lib::set_islands(std::map<int, int, classcomp> island){
-  _islands = island;
+void Lib::set_islands(std::vector<std::tuple<float, int, int>> island){
+  _islands = island; //Cash that I have
 }
 
-void Lib::set_cost_benefit(){
-  int temp = 0;
-  for(auto it = _islands.begin(); it != _islands.end(); ++it){
-    temp = it->second / it->first; //25, 1000 -> 40, 1000
-    _sorted[temp] =  it->second;
-  }
+void Lib::set_greedy(){
+  int i = 0, temp = _N;
 
-  temp = _N; //Cash that I have
-  _trip = new int[_M]; //Cost of islands
-  auto it = _sorted.begin(); //Island
+ std::stable_sort(_islands.begin(), _islands.end());
 
-  while(temp > 0 && it != _sorted.end()){
-    while(it->second > temp && it != _sorted.end()){
-      it++;
- //   std::cout << it->second << "\n";
+  while(temp > 0 && i < _islands.size()){
+    while( std::get<1>(_islands[i]) > temp && i < _islands.size()){
+      i++;
     }
 
-    if(it == _sorted.end())
+    if(i >= _islands.size())
       break;
+    // The money that i have - cost of the island
+    temp -= std::get<1>(_islands[i]);
+    _days++;
+    _total_points += std::get<2>(_islands[i]);
 
-    if(it != _sorted.end()){
-      temp -= it->second;
-      _trip[_days] = it->second;
-      _days++;
-      _total_points += it->second / it->first;
-    }
   }
 }
 
-void Lib::set_matrix(){
-  int _matrix[_M+1][_N+1];
-  int W[_M], Val[_M];
-  int k = 0;
-  for(auto it = _sorted.begin(); it != _sorted.end(); ++it, k++){
-    W[k] = it->second;
-    Val[k] = it->second / it->first;
-  }
+void Lib::set_dynamic_programming(int N, int M){
+  std::vector<std::vector<int>> _matrix = std::vector<std::vector<int>>(M+1);
+  for(int i = 0; i < M+1; i++)
+    _matrix[i] = std::vector<int>(N+1);
 
-  for(int i = 0; i <= _M; i++){
-    for(int j = 0; j <= _N; j++){
+  for(int i = 0; i <= M; i++){
+    for(int j = 0; j <= N; j++){
       if(i == 0 || j == 0)
         _matrix[i][j] = 0; 
-      else if(W[i-1] > j)
+      else if(std::get<1>(_islands[i-1]) > j)
         _matrix[i][j] = _matrix[i-1][j];
       else
-        _matrix[i][j] = std::max(_matrix[i-1][j], Val[i-1] + _matrix[i-1][j - W[i-1]]);
+        _matrix[i][j] = std::max(_matrix[i-1][j], std::get<2>(_islands[i-1]) +
+        _matrix[i-1][j - std::get<1>(_islands[i-1])]);
     }
   }
 
-  _total_points_pd = _matrix[_M][_N];
+  _total_points_pd = _matrix[M][N];
 
-  int i = _M;
-  int j = _N;
-  while(i < 0 || j < 0){
-    if(_matrix[i][j] > _matrix[i-1][j]){
+  int i = M;
+  int j = N;
+  while(i >= 1 && j >= 0){
+    if(_matrix[i][j] > _matrix[i-1][j]) {
       _days_pd++;
-      j = j - Val[i-1];
-    }else{
-      i--;
+      j = j - std::get<1>(_islands[i - 1]);
     }
+    i--;
   }
 }
 
