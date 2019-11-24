@@ -69,5 +69,7 @@ int main(int argv, char *argc[]){
     i++;
   }
 
+  std::cout << std::endl;
+
   return 0;
 }
