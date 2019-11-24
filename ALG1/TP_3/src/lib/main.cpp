@@ -47,7 +47,10 @@ int main(int argv, char *argc[]){
     if (j % N == 0 && col == N && row % J != 0) {
       std::cout << std::endl;
       col = 0;
-      i -= (I+J+1);
+      if(I==J)
+        i-= (I+J);
+      else
+        i -= (I+J+1);
       row++;
     }else if(col == N && row % J == 0){
       std::cout << std::endl;
