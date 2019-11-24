@@ -40,9 +40,9 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 
 clean:
-	$(RM) -r $(BUILDDIR)/* $(TARGET) 
+	$(RM) -r $(BUILDDIR)/* $(TARGET) $(BENCHDIR)/log.txt
 
 run:
-	$(BENCHDIR)/bench.sh > $(BENCHDIR)/log.txt
+	$(BENCHDIR)/bench.sh $(BENCHDIR) ./$(TARGET) > $(BENCHDIR)/log.txt
 
 .PHONY: clean

@@ -46,19 +46,16 @@ int main(int argv, char *argc[]){
   for(int i = 0, j = 0, col = 0, row = 1; i < N*N; j++) {
     if (j % N == 0 && col == N && row % J != 0) {
       std::cout << std::endl;
-      col = 0;
-      if(I==J)
-        i-= (I+J);
-      else
-        i -= (I+J+1);
       row++;
+      i-= ((J-1)*col);
+      col = 0;
     }else if(col == N && row % J == 0){
       std::cout << std::endl;
       row++;
       col = 0;
     }
-    if(col == I)
-      i+=I;
+    if(col % I == 0 && col != 0)
+      i+=((J-1)*I);
     if(i < N*N) {
       int num = _graph[i][0]->get_number();
       std::cout << num << " ";
@@ -68,8 +65,6 @@ int main(int argv, char *argc[]){
     col++;
     i++;
   }
-
   std::cout << std::endl;
-
   return 0;
 }

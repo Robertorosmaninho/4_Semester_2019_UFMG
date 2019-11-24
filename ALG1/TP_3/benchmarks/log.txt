@@ -1,8 +1,0 @@
-tp3 /Users/robertorosmaninho/Desktop/ESCOLAS/UFMG/4˚
-solução
-tp3 Período
-solução
-tp3 -
-solução
-tp3 2019.2/4_Semester_2019_UFMG/ALG1/TP_3/*.txt
-solução
