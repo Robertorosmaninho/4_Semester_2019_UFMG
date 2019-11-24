@@ -1,3 +1,0 @@
-vertices: {10..100..10}; instrucoes {10..100..10}:
-vertices: {10..100..10}; instrucoes {10..100..10}:
-vertices: {10..100..10}; instrucoes {10..100..10}:
