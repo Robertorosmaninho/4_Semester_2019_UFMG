@@ -19,7 +19,6 @@ public:
   ~Node() = default;
 
   int get_id(){ return _id; }
-  void set_id(int id) { _id = id; }
   int get_number(){ return _number; }
   void set_number(int number) { _number = number; }
   int get_row(){ return _row; }
@@ -29,7 +28,7 @@ public:
 class MatrixToGraph {
 private:
   int block_column, block_row;
-  int V, _id = 0, cu = 0;
+  int V, _id = 0;
   std::vector<Node*> _nodes;
   std::vector<std::vector<Node*>> _graph;
   std::vector<int>* _matrix;
@@ -44,14 +43,13 @@ public:
 
   std::vector<std::vector<Node*>> get_graph(){ return _graph; }
 
- // bool verify(int id, int number,  std::vector<Node> _list);
   bool verify(int id, int number);
   bool assignNumber(int id, int number, Node* node);
 
   bool solveSudoku();
   Node* findUnsignedLocation();
 
-  bool verify_all();
+  void print();
 };
 
 

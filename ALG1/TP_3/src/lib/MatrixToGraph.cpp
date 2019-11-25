@@ -19,14 +19,6 @@ MatrixToGraph::MatrixToGraph(int V, int I, int J,
 
   //Fill the nodes with items on columns
   set_column();
-
-  /*for(int i = 0; i < V*V; i++){
-    std::cout << "(" << _graph[i][0]->get_id() << ") - > ";
-    for(int j = 0; j < _graph[i].size(); j++) {
-      std::cout << _graph[i][j]->get_number() << " ";
-    }
-    std::cout << std::endl;
-  }*/
 }
 
 void MatrixToGraph::set_block() {
@@ -43,7 +35,7 @@ void MatrixToGraph::set_block() {
         //Itera sobre as colunas dos blocos
         for (k = 0; k < block_column; k++, x++) {
           //Adiciona todos os itens dobloco em uma lista
-          Node *node = new Node(_id,_matrix[j + e][k + f], j + e, k +f);
+          Node *node = new Node(_id, _matrix[j + e][k + f], j + e, k + f);
           _nodes.push_back(node);
           //Cria um nó no grafo com o número atual
           _graph[x].push_back(node);
@@ -67,13 +59,9 @@ void MatrixToGraph::set_block() {
       _nodes.clear(); //Reinicia a lista
     }
   }
-
-  /*for(int i = 0; i < V; i++){
-    for(int j = 0; j < V; j++){
-      std::cout << _matrix[i][j] << " ";
-    }
-    std::cout << "\n";
-  }*/
+  for(int i = 0; i < _nodes.size(); i++){
+    delete _nodes[i];
+  }
 }
 
 void MatrixToGraph::set_row() {
@@ -81,8 +69,6 @@ void MatrixToGraph::set_row() {
     for (int b = _graph[a][0]->get_row(), c = 0; c < V; c++) {
       if (!(_graph[a][0]->get_row() == b && _graph[a][0]->get_column() == c)) {
         _graph[a].emplace_back(_graph[_matrix[b][c]][0]);
-        //_graph[a].emplace_back(id,_matrix[b][c], b, c);
-        //id++;
       }
     }
   }
@@ -93,18 +79,15 @@ void MatrixToGraph::set_column() {
     for (int b = 0, c = _graph[a][0]->get_column(); b < V; b++) {
       if (!(_graph[a][0]->get_row() == b && _graph[a][0]->get_column() == c)) {
         _graph[a].emplace_back(_graph[_matrix[b][c]][0]);
-       // _graph[a].emplace_back(id, _matrix[b][c], b, c);
-       // id++;
       }
     }
   }
 }
 
 MatrixToGraph::~MatrixToGraph() {
- // for(int i = 0; i < this->graph->size(); i++)
-  //  for(int j = 0; j < this->graph[i].size(); j++)
-   //   graph[i][j].~Node();
-
+  for(int i = 0; i < V*V; i++)
+    _graph[i].clear();
+  _graph.clear();
 }
 
 bool MatrixToGraph::verify(int id, int number) {
@@ -157,3 +140,27 @@ bool MatrixToGraph::assignNumber(int id, int number, Node* node) {
   return true;
 }
 
+void MatrixToGraph::print(){
+  for(int i = 0, j = 0, col = 0, row = 1; i < V*V; j++) {
+    if (j % V == 0 && col == V && row % block_row != 0) {
+      std::cout << std::endl;
+      row++;
+      i-= ((block_row-1)*col);
+      col = 0;
+    }else if(col == V && row % block_row == 0){
+      std::cout << std::endl;
+      row++;
+      col = 0;
+    }
+    if(col % block_column == 0 && col != 0)
+      i+=((block_row-1)*block_column);
+    if(i < V*V) {
+      int num = _graph[i][0]->get_number();
+      std::cout << num << " ";
+    }else {
+      std::cout << 0 << "\n";
+    }
+    col++;
+    i++;
+  }
+}

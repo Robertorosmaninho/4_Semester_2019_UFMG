@@ -24,18 +24,9 @@ int main(int argv, char *argc[]){
     }
   }
 
- /* std::cout << std::endl;
-  for(int i = 0; i < N; i++){
-    for(int j = 0; j < N; j++){
-      std::cout << matrix[i][j] << " ";
-    }
-    std::cout << "\n";
-  }*/
-
   auto graph = MatrixToGraph(N, I, J, matrix);
   bool solution = graph.solveSudoku();
 
- // std::cout << "\n\n";
   auto _graph = graph.get_graph();
 
   if(solution)
@@ -43,28 +34,9 @@ int main(int argv, char *argc[]){
   else
     std::cout << "sem solução\n";
 
-  for(int i = 0, j = 0, col = 0, row = 1; i < N*N; j++) {
-    if (j % N == 0 && col == N && row % J != 0) {
-      std::cout << std::endl;
-      row++;
-      i-= ((J-1)*col);
-      col = 0;
-    }else if(col == N && row % J == 0){
-      std::cout << std::endl;
-      row++;
-      col = 0;
-    }
-    if(col % I == 0 && col != 0)
-      i+=((J-1)*I);
-    if(i < N*N) {
-      int num = _graph[i][0]->get_number();
-      std::cout << num << " ";
-    }else {
-      std::cout << 0 << "\n";
-    }
-    col++;
-    i++;
-  }
+  graph.print();
+
+  delete[] matrix;
   std::cout << std::endl;
   return 0;
 }
