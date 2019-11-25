@@ -14,7 +14,7 @@ int main(int argv, char *argc[]){
   int N, I, J; // size(NxN), I/J -> Columns/Lines of each block
   file >> N >> I >> J;
 
-  auto matrix = new std::vector<int>[N];
+  auto matrix = std::vector<std::vector<int>>(N);
 
   int aux = 0;
   for(int i = 0; i < N; i++){
@@ -36,7 +36,6 @@ int main(int argv, char *argc[]){
 
   graph.print();
 
-  delete[] matrix;
   std::cout << std::endl;
   return 0;
 }

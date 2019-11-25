@@ -31,10 +31,10 @@ private:
   int V, _id = 0;
   std::vector<Node*> _nodes;
   std::vector<std::vector<Node*>> _graph;
-  std::vector<int>* _matrix;
+  std::vector<std::vector<int>> _matrix;
 
 public:
-  MatrixToGraph(int V, int I, int J, std::vector<int>* matrix);
+  MatrixToGraph(int V, int I, int J, std::vector<std::vector<int>> matrix);
   ~MatrixToGraph();
 
   void set_block();

@@ -6,7 +6,7 @@
 #include <iostream>
 
 MatrixToGraph::MatrixToGraph(int V, int I, int J,
-                              std::vector<int> *matrix) : V(V),
+                              std::vector<std::vector<int>> matrix) : V(V),
                               block_row(J), block_column(I) {
   this->_graph = std::vector<std::vector<Node*>>(V * V);
   this->_matrix = matrix;
@@ -35,7 +35,8 @@ void MatrixToGraph::set_block() {
         //Itera sobre as colunas dos blocos
         for (k = 0; k < block_column; k++, x++) {
           //Adiciona todos os itens dobloco em uma lista
-          Node *node = new Node(_id, _matrix[j + e][k + f], j + e, k + f);
+          Node *node = new Node(_id, _matrix[j + e][k + f], j + e, k +
+          f);
           _nodes.push_back(node);
           //Cria um nó no grafo com o número atual
           _graph[x].push_back(node);
@@ -49,10 +50,10 @@ void MatrixToGraph::set_block() {
       //Itera sobre cada item para que loop inferior adcione cada item da
       // lista ao nó atual no grafo
       for(int p = 0; p < _nodes.size(); p++, x++) {
-        for (auto _node : _nodes) {
-          if(!(_node->get_row() == _graph[x][0]->get_row() &&
-               _node->get_column() == _graph[x][0]->get_column())){
-            _graph[x].push_back(_node);
+        for (auto node : _nodes) {
+          if(!(node->get_row() == _graph[x][0]->get_row() &&
+               node->get_column() == _graph[x][0]->get_column())){
+            _graph[x].push_back(node);
           }
         }
       }
@@ -86,7 +87,7 @@ void MatrixToGraph::set_column() {
 
 MatrixToGraph::~MatrixToGraph() {
   for(int i = 0; i < V*V; i++)
-    delete _graph[i][0];
+    _graph[i].clear();
   _graph.clear();
 }
 
@@ -125,6 +126,7 @@ bool MatrixToGraph::solveSudoku() {
       node->set_number(0);
     }
   }
+  std::cout << "wtf";
   return false;
 }
 
