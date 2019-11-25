@@ -18,6 +18,7 @@ SRCDIR := src
 BUILDDIR := build
 INCLUDEDIR := include
 BENCHDIR := benchmarks
+TESTDIR := Tests
 
 SRCEXT := cpp
 SRC := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT)) 
@@ -40,9 +41,11 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 
 clean:
-	$(RM) -r $(BUILDDIR)/* $(TARGET) $(BENCHDIR)/log.txt
+	$(RM) -r $(BUILDDIR)/* $(TARGET) log.txt
 
 run:
-	$(BENCHDIR)/bench.sh $(BENCHDIR) ./$(TARGET) > $(BENCHDIR)/log.txt
+	$(BENCHDIR)/bench.sh $(BENCHDIR) ./$(TARGET)
+	$(RM) -r $(TESTDIR)/LOGTIME
+	mv LOGTIME result.txt ./Tests
 
 .PHONY: clean
