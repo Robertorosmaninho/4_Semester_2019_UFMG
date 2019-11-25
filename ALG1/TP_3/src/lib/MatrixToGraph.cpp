@@ -126,7 +126,6 @@ bool MatrixToGraph::solveSudoku() {
       node->set_number(0);
     }
   }
-  std::cout << "wtf";
   return false;
 }
 
