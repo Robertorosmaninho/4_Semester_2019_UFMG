@@ -34,7 +34,7 @@ fi
 
 for filename in $benchdir/*.txt; do
   file=$(basename $filename)
-  file=$TESTDIR/"time"${timelog}_${file}
+	file=$TESTDIR/"time"${timelog}_${file%.*}.csv
   for i in $(eval echo "{1..$numtests}"); do
     echo "tp3 $filename" >> $result
     ts=$(date +%s%N)
