@@ -87,7 +87,7 @@ void MatrixToGraph::set_column() {
 
 MatrixToGraph::~MatrixToGraph() {
   for(int i = 0; i < V*V; i++)
-    _graph[i].clear();
+    delete _graph[i][0];
   _graph.clear();
 }
 
