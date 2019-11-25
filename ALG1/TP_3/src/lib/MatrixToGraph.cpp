@@ -49,10 +49,10 @@ void MatrixToGraph::set_block() {
       //Itera sobre cada item para que loop inferior adcione cada item da
       // lista ao nó atual no grafo
       for(int p = 0; p < _nodes.size(); p++, x++) {
-        for (auto node : _nodes) {
-          if(!(node->get_row() == _graph[x][0]->get_row() &&
-               node->get_column() == _graph[x][0]->get_column())){
-            _graph[x].push_back(node);
+        for (auto _node : _nodes) {
+          if(!(_node->get_row() == _graph[x][0]->get_row() &&
+               _node->get_column() == _graph[x][0]->get_column())){
+            _graph[x].push_back(_node);
           }
         }
       }
@@ -86,7 +86,7 @@ void MatrixToGraph::set_column() {
 
 MatrixToGraph::~MatrixToGraph() {
   for(int i = 0; i < V*V; i++)
-    _graph[i].clear();
+    delete _graph[i][0];
   _graph.clear();
 }
 
